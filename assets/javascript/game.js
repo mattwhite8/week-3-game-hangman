@@ -1,79 +1,140 @@
-var arrOfWords = ["cat", "duck", "horse", "tiger", "lion", "rabbit"];
-var tries = 10;
-var wins = 0;
-var losses = 0;
-var lettersTried = [];
-
-
-function placeHolder(string) {
-	var arr = [];
-	for(i = 0; i < string.length; i++){
-		arr.push("_");
+var hangman = {
+	arrOfWords: ["cat", "duck", "horse", "tiger", "lion", "rabbit"],
+	tries: 10,
+	wins: 0,
+	losses: 0,
+	placeHolder: function(string) {
+		var arr = [];
+		for(i = 0; i < string.length; i++){
+			arr.push("_");
+		}
+		return arr
+	},
+	replace: function(arr, string, key) {
+		var pos = 0;
+		 while (string.indexOf(key, pos) !== -1) {
+		 	arr[string.indexOf(key, pos)] = key;
+		 	pos++;
+		 	console.log("replace loop " + pos);
+		 }
+		return arr
+	},
+	usedKey: function(arr, key) {
+		arr.join("");
+		if (arr.indexOf(key) !== -1) {
+			return false
+		} else {
+			return true
+		}
+	},
+	youLost: function() {
+		alert("You lost");
+		this.losses++;
+		this.tries = 10;
+		guess = this.arrOfWords[Math.floor(Math.random() * this.arrOfWords.length)];
+		array = [];
+		array = this.placeHolder(guess);
+		lettersTried = [];
+		triesDiv.innerHTML = this.tries;
+		keysDiv.innerHTML = "";
+		answerDiv.innerHTML = this.placeHolder(guess).join(" ");
+		lossesDiv.innerHTML = "Losses: " + this.losses;
+	},
+	youWon: function() {
+		alert("You won! The word was " + guess);
+		this.wins++;
+		this.tries = 10;
+		guess = this.arrOfWords[Math.floor(Math.random() * this.arrOfWords.length)];
+		array = [];
+		array = this.placeHolder(guess);
+		lettersTried = [];
+		triesDiv.innerHTML = this.tries;
+		keysDiv.innerHTML = "";
+		answerDiv.innerHTML = this.placeHolder(guess).join(" ");
+		winsDiv.innerHTML = "Wins: " + this.wins;
+	},
+	checkWinStatus: function(arr) {
+		return arr.join("").indexOf("_");
 	}
-	return arr
 }
+
+
+// var arrOfWords = ["cat", "duck", "horse", "tiger", "lion", "rabbit"];
+// var tries = 10;
+// var wins = 0;
+// var losses = 0;
+// var lettersTried = [];
+
+
+// function placeHolder(string) {
+// 	var arr = [];
+// 	for(i = 0; i < string.length; i++){
+// 		arr.push("_");
+// 	}
+// 	return arr
+// }
 
 //Remember, arr is modified and Stays that way
-function replace(arr, string, key) {
-	var pos = 0;
+// function replace(arr, string, key) {
+// 	var pos = 0;
 
-	 while (string.indexOf(key, pos) !== -1) {
-	 	arr[string.indexOf(key, pos)] = key;
-	 	pos++;
-	 }
-	//Below is the old code that couldn't account for duplicate letters
-	//if (string.indexOf(key) !== -1) {
-		//arr[string.indexOf(key)] = key;
-		//return arr
-	//}
-	return arr
-}
+// 	 while (string.indexOf(key, pos) !== -1) {
+// 	 	arr[string.indexOf(key, pos)] = key;
+// 	 	pos++;
+// 	 }
+// 	//Below is the old code that couldn't account for duplicate letters
+// 	//if (string.indexOf(key) !== -1) {
+// 		//arr[string.indexOf(key)] = key;
+// 		//return arr
+// 	//}
+// 	return arr
+// }
 
 //Let's check to see if we've already used a key
-function usedKey(lettersTried, key) {
-	lettersTried.join("");
-	if (lettersTried.indexOf(key) !== -1) {
-		return false
-	} else {
-		return true
-	}
-}
+// function usedKey(lettersTried, key) {
+// 	lettersTried.join("");
+// 	if (lettersTried.indexOf(key) !== -1) {
+// 		return false
+// 	} else {
+// 		return true
+// 	}
+// }
 
-function youLost() {
-	alert("You lost");
-	losses++;
-	tries = 10;
-	guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
-	array = [];
-	array = placeHolder(guess);
-	lettersTried = [];
-	triesDiv.innerHTML = tries;
-	keysDiv.innerHTML = "";
-	answerDiv.innerHTML = placeHolder(guess).join(" ");
-	lossesDiv.innerHTML = "Losses: " + losses;
-}
+// function youLost() {
+// 	alert("You lost");
+// 	losses++;
+// 	tries = 10;
+// 	guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
+// 	array = [];
+// 	array = placeHolder(guess);
+// 	lettersTried = [];
+// 	triesDiv.innerHTML = tries;
+// 	keysDiv.innerHTML = "";
+// 	answerDiv.innerHTML = placeHolder(guess).join(" ");
+// 	lossesDiv.innerHTML = "Losses: " + losses;
+// }
 
-function youWon() {
-	alert("You won! The word was " + guess);
-	wins++;
-	tries = 10;
-	guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
-	array = [];
-	array = placeHolder(guess);
-	lettersTried = [];
-	triesDiv.innerHTML = tries;
-	keysDiv.innerHTML = "";
-	answerDiv.innerHTML = placeHolder(guess).join(" ");
-	winsDiv.innerHTML = "Wins: " + wins;
-}
+// function youWon() {
+// 	alert("You won! The word was " + guess);
+// 	wins++;
+// 	tries = 10;
+// 	guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
+// 	array = [];
+// 	array = placeHolder(guess);
+// 	lettersTried = [];
+// 	triesDiv.innerHTML = tries;
+// 	keysDiv.innerHTML = "";
+// 	answerDiv.innerHTML = placeHolder(guess).join(" ");
+// 	winsDiv.innerHTML = "Wins: " + wins;
+// }
 
-function checkWinStatus(arr) {
-	return arr.join("").indexOf("_");
-}
-
+// function checkWinStatus(arr) {
+// 	return arr.join("").indexOf("_");
+// }
+var lettersTried = [];
 
 //Choose a random word from arrOfWords 
-var guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
+var guess = hangman.arrOfWords[Math.floor(Math.random() * hangman.arrOfWords.length)];
 console.log("The var guess = " + guess);
 
 //This is where our guesses will show up
@@ -92,13 +153,13 @@ var lossesDiv = document.getElementById("losses");
 var winsDiv = document.getElementById("wins");
 
 //Place the placeholder for the random word from the arrOfWords array
-answerDiv.innerHTML = placeHolder(guess).join(" ");
+answerDiv.innerHTML = hangman.placeHolder(guess).join(" ");
 
 //Place the default number of tries in the HTML
-triesDiv.innerHTML = tries;
+triesDiv.innerHTML = hangman.tries;
 
 //Save our placeHolder array for later
-var array = placeHolder(guess);
+var array = hangman.placeHolder(guess);
 console.log("The var array = " + array);
 
 
@@ -107,27 +168,27 @@ document.onkeyup = function(event) {
 	keystroke = event.key.toLowerCase();
 
 	//toReplace is replaced with the modifed array from replace();
-	if (guess.indexOf(keystroke) !== -1 && usedKey(lettersTried, keystroke)) {
-		var toReplace = replace(array, guess, keystroke);
+	if (guess.indexOf(keystroke) !== -1 && hangman.usedKey(lettersTried, keystroke)) {
+		var toReplace = hangman.replace(array, guess, keystroke);
 		answerDiv.innerHTML = toReplace.join(" ");
 		lettersTried.push(keystroke);
 		keysDiv.innerHTML = lettersTried.join(" ");
-	} else if (usedKey(lettersTried, keystroke) === false) {
+	} else if (hangman.usedKey(lettersTried, keystroke) === false) {
 		alert("You've already used that key!");
 	} else {
 		alert("That's not the right letter!");
-		tries--;
-		triesDiv.innerHTML = tries;
+		hangman.tries--;
+		triesDiv.innerHTML = hangman.tries;
 		lettersTried.push(keystroke);
 		keysDiv.innerHTML = lettersTried.join(" ");
 	}
 
-	if (tries === 0) {
-		youLost();
+	if (hangman.tries === 0) {
+		hangman.youLost();
 	}
 
-	if (checkWinStatus(array) === -1) {
-		youWon();
+	if (hangman.checkWinStatus(array) === -1) {
+		hangman.youWon();
 	}
 
 
