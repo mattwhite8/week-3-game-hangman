@@ -186,5 +186,9 @@ body {
 #answer {
 	color: white;
 	font-weight: bold;
-	font-size: 32px;
+}
+
+.transparent {
+	background-color: navy;
+	opacity: 0.5;
 }
