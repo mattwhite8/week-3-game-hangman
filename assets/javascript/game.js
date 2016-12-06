@@ -37,7 +37,21 @@ function usedKey(lettersTried, key) {
 	} else {
 		return true
 	}
-};
+}
+
+function youLost() {
+	alert("You lost");
+	losses++;
+	tries = 10;
+	guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
+	array = [];
+	array = placeHolder(guess);
+	lettersTried = [];
+	triesDiv.innerHTML = tries;
+	keysDiv.innerHTML = "";
+	answerDiv.innerHTML = placeHolder(guess).join(" ");
+	lossesDiv.innerHTML = "Losses: " + losses;
+}
 
 
 
@@ -56,6 +70,9 @@ var keysDiv = document.getElementById("keys-used");
 
 //This is where our losses will show up
 var lossesDiv = document.getElementById("losses");
+
+//This is where our wins will show up
+var winsDiv = document.getElementById("wins");
 
 //Place the placeholder for the random word from the arrOfWords array
 answerDiv.innerHTML = placeHolder(guess).join(" ");
@@ -91,16 +108,9 @@ document.onkeyup = function(event) {
 	}
 
 	if (tries === 0) {
-		alert("You lost");
-		losses++;
-		tries = 10;
-		guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
-		lettersTried = [];
-		triesDiv.innerHTML = tries;
-		keysDiv.innerHTML = "";
-		answerDiv.innerHTML = placeHolder(guess).join(" ");
-		lossesDiv.innerHTML = "Losses: " + losses;
+		youLost();
 	}
+
 
 };
 
