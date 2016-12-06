@@ -53,6 +53,23 @@ function youLost() {
 	lossesDiv.innerHTML = "Losses: " + losses;
 }
 
+function youWon() {
+	alert("You won! The word was " + guess);
+	wins++;
+	tries = 10;
+	guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
+	array = [];
+	array = placeHolder(guess);
+	lettersTried = [];
+	triesDiv.innerHTML = tries;
+	keysDiv.innerHTML = "";
+	answerDiv.innerHTML = placeHolder(guess).join(" ");
+	winsDiv.innerHTML = "Wins: " + wins;
+}
+
+function checkWinStatus(arr) {
+	return arr.join("").indexOf("_");
+}
 
 
 //Choose a random word from arrOfWords 
@@ -90,8 +107,6 @@ document.onkeyup = function(event) {
 	keystroke = event.key.toLowerCase();
 
 	//toReplace is replaced with the modifed array from replace();
-
-
 	if (guess.indexOf(keystroke) !== -1 && usedKey(lettersTried, keystroke)) {
 		var toReplace = replace(array, guess, keystroke);
 		answerDiv.innerHTML = toReplace.join(" ");
@@ -109,6 +124,10 @@ document.onkeyup = function(event) {
 
 	if (tries === 0) {
 		youLost();
+	}
+
+	if (checkWinStatus(array) === -1) {
+		youWon();
 	}
 
 
