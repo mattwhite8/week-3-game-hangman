@@ -55,82 +55,22 @@ var hangman = {
 	},
 	checkWinStatus: function(arr) {
 		return arr.join("").indexOf("_");
+	},
+	lostAudio: function() {
+		const lost = document.getElementById("loseAudio");
+		lost.play();
+	},
+	wonAudio: function() {
+		const won = document.getElementById("winAudio");
+		won.play();
+	},
+	wrongKey: function() {
+		const wrong = document.getElementById("wrongKey");
+		wrong.currentTime = 0;
+		wrong.play();
 	}
 }
 
-
-// var arrOfWords = ["cat", "duck", "horse", "tiger", "lion", "rabbit"];
-// var tries = 10;
-// var wins = 0;
-// var losses = 0;
-// var lettersTried = [];
-
-
-// function placeHolder(string) {
-// 	var arr = [];
-// 	for(i = 0; i < string.length; i++){
-// 		arr.push("_");
-// 	}
-// 	return arr
-// }
-
-//Remember, arr is modified and Stays that way
-// function replace(arr, string, key) {
-// 	var pos = 0;
-
-// 	 while (string.indexOf(key, pos) !== -1) {
-// 	 	arr[string.indexOf(key, pos)] = key;
-// 	 	pos++;
-// 	 }
-// 	//Below is the old code that couldn't account for duplicate letters
-// 	//if (string.indexOf(key) !== -1) {
-// 		//arr[string.indexOf(key)] = key;
-// 		//return arr
-// 	//}
-// 	return arr
-// }
-
-//Let's check to see if we've already used a key
-// function usedKey(lettersTried, key) {
-// 	lettersTried.join("");
-// 	if (lettersTried.indexOf(key) !== -1) {
-// 		return false
-// 	} else {
-// 		return true
-// 	}
-// }
-
-// function youLost() {
-// 	alert("You lost");
-// 	losses++;
-// 	tries = 10;
-// 	guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
-// 	array = [];
-// 	array = placeHolder(guess);
-// 	lettersTried = [];
-// 	triesDiv.innerHTML = tries;
-// 	keysDiv.innerHTML = "";
-// 	answerDiv.innerHTML = placeHolder(guess).join(" ");
-// 	lossesDiv.innerHTML = "Losses: " + losses;
-// }
-
-// function youWon() {
-// 	alert("You won! The word was " + guess);
-// 	wins++;
-// 	tries = 10;
-// 	guess = arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
-// 	array = [];
-// 	array = placeHolder(guess);
-// 	lettersTried = [];
-// 	triesDiv.innerHTML = tries;
-// 	keysDiv.innerHTML = "";
-// 	answerDiv.innerHTML = placeHolder(guess).join(" ");
-// 	winsDiv.innerHTML = "Wins: " + wins;
-// }
-
-// function checkWinStatus(arr) {
-// 	return arr.join("").indexOf("_");
-// }
 var lettersTried = [];
 
 //Choose a random word from arrOfWords 
@@ -162,10 +102,14 @@ triesDiv.innerHTML = hangman.tries;
 var array = hangman.placeHolder(guess);
 console.log("The var array = " + array);
 
+window.addEventListener("keyup", function(event) {
 
-document.onkeyup = function(event) {
+	if(event.keyCode <= 64 || event.keyCode >= 91) {
+		hangman.wrongKey();
+		return;
+	}
 
-	keystroke = event.key.toLowerCase();
+	keystroke = event.key;
 
 	//toReplace is replaced with the modifed array from replace();
 	if (guess.indexOf(keystroke) !== -1 && hangman.usedKey(lettersTried, keystroke)) {
@@ -176,23 +120,26 @@ document.onkeyup = function(event) {
 	} else if (hangman.usedKey(lettersTried, keystroke) === false) {
 		alert("You've already used that key!");
 	} else {
-		alert("That's not the right letter!");
 		hangman.tries--;
+		alert("That's not the right letter!");
 		triesDiv.innerHTML = hangman.tries;
 		lettersTried.push(keystroke);
 		keysDiv.innerHTML = lettersTried.join(" ");
 	}
 
 	if (hangman.tries === 0) {
-		hangman.youLost();
+		triesDiv.innerHTML = hangman.tries;
+		hangman.lostAudio();
+		setTimeout(hangman.youLost(), 1000);
 	}
 
 	if (hangman.checkWinStatus(array) === -1) {
+		hangman.wonAudio();
 		hangman.youWon();
 	}
 
 
-};
+});
 
 
 
