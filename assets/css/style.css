@@ -195,11 +195,15 @@ body {
 
 .box {
   border: 1px solid white;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
   display: inline-block;
+  transition:all .07s;
+  margin: 3px;
 }
 
 .box-selected {
-  border: 2px solid yellow;
+  transform:scale(1.1);
+  border-color: white;
+  box-shadow: 0 0 10px white;  
 }
