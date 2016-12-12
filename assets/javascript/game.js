@@ -1,3 +1,4 @@
+//game object
 var hangman = {
 	arrOfWords: ["cat", "duck", "horse", "tiger", "lion", "rabbit"],
 	tries: 10,
@@ -68,6 +69,10 @@ var hangman = {
 		const wrong = document.getElementById("wrongKey");
 		wrong.currentTime = 0;
 		wrong.play();
+	},
+	removeClass: function() {
+		const keys = document.querySelectorAll('.box');
+  		keys.forEach(key => key.classList.remove("box-selected"));
 	}
 }
 
@@ -102,7 +107,26 @@ triesDiv.innerHTML = hangman.tries;
 var array = hangman.placeHolder(guess);
 console.log("The var array = " + array);
 
+//Below we're making the for loop and array used to create the key boxes
+var letterOptions = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+
+for (var i = 0; i < letterOptions.length; i++) {
+
+	var letterBox = document.createElement("div");
+
+	letterBox.setAttribute("class", "box");
+
+	letterBox.setAttribute("data-letter", letterOptions[i]);
+
+	letterBox.innerHTML = ("<p>" + letterOptions[i] + "</p>");
+
+	document.getElementById("keys").appendChild(letterBox);
+}
+
 window.addEventListener("keyup", function(event) {
+
+	const key = document.querySelector(`div[data-letter="${event.key}"]`);
+  	key.classList.add("box-selected");
 
 	if(event.keyCode <= 64 || event.keyCode >= 91) {
 		hangman.wrongKey();
@@ -128,14 +152,15 @@ window.addEventListener("keyup", function(event) {
 	}
 
 	if (hangman.tries === 0) {
-		triesDiv.innerHTML = hangman.tries;
 		hangman.lostAudio();
-		setTimeout(hangman.youLost(), 1000);
+		hangman.youLost();
+		hangman.removeClass();
 	}
 
 	if (hangman.checkWinStatus(array) === -1) {
 		hangman.wonAudio();
 		hangman.youWon();
+		hangman.removeClass();
 	}
 
 
