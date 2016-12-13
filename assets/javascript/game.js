@@ -1,6 +1,6 @@
 //game object
 var hangman = {
-	arrOfWords: ["cat", "duck", "horse", "tiger", "lion", "rabbit"],
+	arrOfWords: ["space", "monolith", "earth", "odyssey", "ship", "computer"],
 	tries: 10,
 	wins: 0,
 	losses: 0,
@@ -29,7 +29,7 @@ var hangman = {
 		}
 	},
 	youLost: function() {
-		alert("You lost");
+		messageDiv.innerHTML = "You lost!";
 		this.losses++;
 		this.tries = 10;
 		guess = this.arrOfWords[Math.floor(Math.random() * this.arrOfWords.length)];
@@ -37,12 +37,12 @@ var hangman = {
 		array = this.placeHolder(guess);
 		lettersTried = [];
 		triesDiv.innerHTML = this.tries;
-		keysDiv.innerHTML = "";
+		messageDiv.innerHTML = "";
 		answerDiv.innerHTML = this.placeHolder(guess).join(" ");
 		lossesDiv.innerHTML = "Losses: " + this.losses;
 	},
 	youWon: function() {
-		alert("You won! The word was " + guess);
+		messageDiv.innerHTML = "You won! The word was " + guess;
 		this.wins++;
 		this.tries = 10;
 		guess = this.arrOfWords[Math.floor(Math.random() * this.arrOfWords.length)];
@@ -50,7 +50,7 @@ var hangman = {
 		array = this.placeHolder(guess);
 		lettersTried = [];
 		triesDiv.innerHTML = this.tries;
-		keysDiv.innerHTML = "";
+		messageDiv.innerHTML = "";
 		answerDiv.innerHTML = this.placeHolder(guess).join(" ");
 		winsDiv.innerHTML = "Wins: " + this.wins;
 	},
@@ -89,7 +89,7 @@ var answerDiv = document.getElementById("answer");
 var triesDiv = document.getElementById("guesses-left");
 
 //This is where our used keys will show up
-var keysDiv = document.getElementById("keys-used");
+var messageDiv = document.getElementById("message");
 
 //This is where our losses will show up
 var lossesDiv = document.getElementById("losses");
@@ -145,15 +145,14 @@ window.addEventListener("keyup", function(event) {
 		var toReplace = hangman.replace(array, guess, keystroke);
 		answerDiv.innerHTML = toReplace.join(" ");
 		lettersTried.push(keystroke);
-		keysDiv.innerHTML = lettersTried.join(" ");
+		messageDiv.innerHTML = "Good guess!";
 	} else if (hangman.usedKey(lettersTried, keystroke) === false) {
-		alert("You've already used that key!");
+		messageDiv.innerHTML = "You've already used that key!";
 	} else {
 		hangman.tries--;
-		alert("That's not the right letter!");
+		messageDiv.innerHTML = "That's not the right key!";
 		triesDiv.innerHTML = hangman.tries;
 		lettersTried.push(keystroke);
-		keysDiv.innerHTML = lettersTried.join(" ");
 	}
 
 	if (hangman.tries === 0) {
