@@ -123,6 +123,11 @@ for (var i = 0; i < letterOptions.length; i++) {
 	document.getElementById("keys").appendChild(letterBox);
 }
 
+// $(".box").on("click",function(){
+// 	console.log(this.attr("data-letter"));
+// });
+
+
 window.addEventListener("keyup", function(event) {
 
 	const key = document.querySelector(`div[data-letter="${event.key}"]`);
