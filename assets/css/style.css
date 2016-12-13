@@ -181,6 +181,7 @@ body {
 	background-size: cover;
 	overflow: hidden;
 	color: white;
+  font-family: 'Quantico', sans-serif;
 }
 
 #answer {
