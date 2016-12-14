@@ -28,9 +28,7 @@ var hangman = {
 			return true
 		}
 	},
-	youLost: function() {
-		messageDiv.innerHTML = "You lost!";
-		this.losses++;
+	clearOut: function() {
 		this.tries = 10;
 		guess = this.arrOfWords[Math.floor(Math.random() * this.arrOfWords.length)];
 		array = [];
@@ -39,19 +37,15 @@ var hangman = {
 		triesDiv.innerHTML = this.tries;
 		messageDiv.innerHTML = "";
 		answerDiv.innerHTML = this.placeHolder(guess).join(" ");
+	},
+	youLost: function() {
+		messageDiv.innerHTML = "You lost! The word was " + guess;
+		this.losses++;
 		lossesDiv.innerHTML = "Losses: " + this.losses;
 	},
 	youWon: function() {
 		messageDiv.innerHTML = "You won! The word was " + guess;
 		this.wins++;
-		this.tries = 10;
-		guess = this.arrOfWords[Math.floor(Math.random() * this.arrOfWords.length)];
-		array = [];
-		array = this.placeHolder(guess);
-		lettersTried = [];
-		triesDiv.innerHTML = this.tries;
-		messageDiv.innerHTML = "";
-		answerDiv.innerHTML = this.placeHolder(guess).join(" ");
 		winsDiv.innerHTML = "Wins: " + this.wins;
 	},
 	checkWinStatus: function(arr) {
@@ -158,13 +152,15 @@ window.addEventListener("keyup", function(event) {
 	if (hangman.tries === 0) {
 		hangman.lostAudio();
 		hangman.youLost();
-		hangman.removeClass();
+		setTimeout(hangman.clearOut.bind(hangman), 3000);
+		setTimeout(hangman.removeClass.bind(hangman), 3000);
 	}
 
 	if (hangman.checkWinStatus(array) === -1) {
 		hangman.wonAudio();
 		hangman.youWon();
-		hangman.removeClass();
+		setTimeout(hangman.clearOut.bind(hangman), 3000);
+		setTimeout(hangman.removeClass.bind(hangman), 3000);
 	}
 
 
