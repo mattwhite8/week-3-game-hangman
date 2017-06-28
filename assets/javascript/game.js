@@ -9,23 +9,23 @@ var hangman = {
 		for(i = 0; i < string.length; i++){
 			arr.push("_");
 		}
-		return arr
+		return arr;
 	},
 	replace: function(arr, string, key) {
 		var pos = 0;
-		 while (string.indexOf(key, pos) !== -1) {
-		 	arr[string.indexOf(key, pos)] = key;
-		 	pos++;
-		 	console.log("replace loop " + pos);
-		 }
-		return arr
+		while (string.indexOf(key, pos) !== -1) {
+			arr[string.indexOf(key, pos)] = key;
+			pos++;
+			console.log("replace loop " + pos);
+		}
+		return arr;
 	},
 	usedKey: function(arr, key) {
 		arr.join("");
 		if (arr.indexOf(key) !== -1) {
-			return false
+			return false;
 		} else {
-			return true
+			return true;
 		}
 	},
 	clearOut: function() {
@@ -65,10 +65,10 @@ var hangman = {
 		wrong.play();
 	},
 	removeClass: function() {
-		const keys = document.querySelectorAll('.box');
-  		keys.forEach(key => key.classList.remove("box-selected"));
+		const keys = document.querySelectorAll(".box");
+		keys.forEach(key => key.classList.remove("box-selected"));
 	}
-}
+};
 
 var lettersTried = [];
 
@@ -125,14 +125,14 @@ for (var i = 0; i < letterOptions.length; i++) {
 window.addEventListener("keyup", function(event) {
 
 	const key = document.querySelector(`div[data-letter="${event.key}"]`);
-  	key.classList.add("box-selected");
+	key.classList.add("box-selected");
 
 	if(event.keyCode <= 64 || event.keyCode >= 91) {
 		hangman.wrongKey();
 		return;
 	}
 
-	keystroke = event.key;
+	var keystroke = event.key;
 
 	//toReplace is replaced with the modifed array from replace();
 	if (guess.indexOf(keystroke) !== -1 && hangman.usedKey(lettersTried, keystroke)) {
